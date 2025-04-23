@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app_demo/data/questions.dart';
 import 'package:quiz_app_demo/questions.dart';
 import 'package:quiz_app_demo/start_screen.dart';
 
@@ -9,6 +10,8 @@ class Quiz extends StatefulWidget {
     return _QuizState();
   }
 }
+
+List<String> givenAnswers = [];
 
 class _QuizState extends State<Quiz> {
   // Widget? active;
@@ -27,6 +30,17 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  void selectAnswer(String answer) {
+    givenAnswers.add(answer);
+    if (givenAnswers.length == questions.length) {
+      setState(() {
+        givenAnswers = [];
+
+        active = "start";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,7 +55,9 @@ class _QuizState extends State<Quiz> {
           ),
           child:
               // active;
-              active == "start" ? StartScreen(changeScreen) : const Questions(),
+              active == "start"
+                  ? StartScreen(changeScreen)
+                  : Questions(selectAnswer),
         ),
       ),
     );
